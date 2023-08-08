@@ -5,8 +5,6 @@ const checkSchemeId = async (req, res, next) => {
     const scheme = await Schemes.findById(req.params.scheme_id);
     if (!scheme) {
       res.status(404).json({ message: `scheme with scheme_id ${req.params.scheme_id} not found` });
-    } else {
-      next();
     }
   } catch (err) {
     next(err);
