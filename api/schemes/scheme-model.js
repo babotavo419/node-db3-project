@@ -23,11 +23,13 @@ async function findById(scheme_id) {
       instructions: step.instructions
     }));
 
+    const filteredSteps = steps.filter(step => step.step_id !== null);
+
     return {
-      scheme_id: scheme_id,
+      scheme_id: Number(scheme_id), // Convert the scheme_id to a number
       scheme_name: results[0].scheme_name,
       steps: steps
-    };
+    };    
   } else {
     return null;
   }
@@ -43,8 +45,8 @@ function findSteps(scheme_id) {
 
 function add(scheme) {
   return db('schemes')
-    .insert(scheme, ['*'])
-    .then(([newScheme]) => newScheme);
+  .insert(scheme, ['scheme_id', 'scheme_name']) // Explicitly asking for scheme_id and scheme_name
+  .then(([newScheme]) => newScheme);
 }
 
 function addStep(scheme_id, step) {
