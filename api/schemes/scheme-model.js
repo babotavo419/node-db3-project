@@ -28,7 +28,7 @@ async function findById(scheme_id) {
     return {
       scheme_id: Number(scheme_id), // Convert the scheme_id to a number
       scheme_name: results[0].scheme_name,
-      steps: steps
+      steps: filteredSteps
     };    
   } else {
     return null;
