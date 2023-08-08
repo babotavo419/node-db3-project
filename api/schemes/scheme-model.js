@@ -45,8 +45,18 @@ function findSteps(scheme_id) {
 
 function add(scheme) {
   return db('schemes')
-  .insert(scheme, ['scheme_id', 'scheme_name']) // Explicitly asking for scheme_id and scheme_name
-  .then(([newScheme]) => newScheme);
+    .insert(scheme)
+    .then(() => {
+      // fetch the latest scheme_id from the 'schemes' table
+      return db('schemes').max('scheme_id as scheme_id');
+    })
+    .then(([result]) => {
+      // return the newly inserted scheme with the scheme_id
+      return {
+        scheme_id: result.scheme_id,
+        scheme_name: scheme.scheme_name
+      };
+    });
 }
 
 function addStep(scheme_id, step) {
